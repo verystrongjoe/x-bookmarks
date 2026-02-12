@@ -2,6 +2,38 @@
 
 Turn X/Twitter bookmarks from a graveyard of good intentions into actionable work.
 
+## How This Works
+
+Once installed, just tell your AI agent:
+
+> "check my bookmarks"
+
+That's it. Your agent will:
+
+1. **Fetch** your latest X bookmarks (auto-detects bird CLI or X API v2)
+2. **Categorize** them by topic (crypto, AI, marketing, tools, etc.)
+3. **Propose actions** for each one — not just summaries, but things your agent can actually do:
+
+```
+📂 AI TOOLS (3)
+• @someone shared a repo for automating video edits
+  → 🤖 I CAN: Clone it, test it, and set it up for you
+
+📂 TRADING (2)  
+• @trader posted a new momentum strategy with backtest data
+  → 🤖 I CAN: Compare this against your current strategy and report differences
+```
+
+You can also say:
+- **"bookmark digest"** — get a categorized summary of recent saves
+- **"what did I bookmark this week?"** — filtered by time
+- **"find patterns in my bookmarks"** — clusters topics you keep saving
+- **"clean up old bookmarks"** — flags stale saves with TL;DRs
+
+### Scheduled Digests
+
+Set up a daily or weekly cron job and your agent will automatically check for new bookmarks, categorize them, and deliver a digest to you.
+
 ## What it does
 
 - Fetches your X bookmarks via **bird CLI** or **X API v2** (auto-detects)
@@ -32,21 +64,29 @@ python3 scripts/fetch_bookmarks_api.py -n 20
 
 Both backends output the same JSON format — all workflows work with either.
 
+## Auto-Detection
+
+You don't need to pick a backend. The skill automatically:
+
+1. Tries `bird whoami` — if it works, uses bird CLI
+2. If not, checks for X API tokens in `~/.config/x-bookmarks/`
+3. If neither, walks you through setup (offers both options)
+
 ## Files
 
 ```
 SKILL.md              — Agent instructions (the skill itself)
 scripts/
-  fetch_bookmarks.sh  — bird CLI wrapper
+  fetch_bookmarks.sh      — bird CLI wrapper
   fetch_bookmarks_api.py  — X API v2 fetcher
-  x_api_auth.py       — OAuth 2.0 PKCE auth helper
+  x_api_auth.py           — OAuth 2.0 PKCE auth helper
 references/
-  auth-setup.md       — Detailed setup guide for both backends
+  auth-setup.md           — Detailed setup guide for both backends
 ```
 
 ## Requirements
 
-**bird CLI path:** Node.js, npm, bird-cli, browser with X login
+**bird CLI path:** Node.js, npm, bird-cli, browser with X login  
 **X API path:** Python 3.10+, X Developer account, OAuth 2.0 app
 
 ## Install as OpenClaw Skill
