@@ -1,5 +1,6 @@
 ---
 name: x-bookmarks
+version: 1.1.0
 description: >
   Fetch, summarize, and manage X/Twitter bookmarks via bird CLI or X API v2.
   Use when: (1) user says "check my bookmarks", "what did I bookmark", "bookmark digest",
@@ -7,6 +8,26 @@ description: >
   digest of saved tweets, (3) user wants to categorize, search, or analyze their bookmarks,
   (4) scheduled bookmark digests via cron.
   Auth: bird CLI with browser cookies, OR X API v2 with OAuth 2.0 tokens.
+requires:
+  env:
+    - AUTH_TOKEN: "X/Twitter auth token (from browser cookies, for bird CLI auth)"
+    - CT0: "X/Twitter CSRF token (from browser cookies, for bird CLI auth)"
+    - X_API_BEARER_TOKEN: "Optional: X API v2 Bearer token (alternative to bird CLI)"
+  bins:
+    - bird: "bird-cli (npm i -g bird-cli) - preferred backend"
+  files:
+    - .env.bird: "Optional: stores AUTH_TOKEN and CT0 for bird CLI"
+    - ~/.config/x-bookmarks/tokens.json: "OAuth 2.0 tokens for X API v2 backend"
+security:
+  credentials: >
+    This skill accesses X/Twitter bookmarks, which requires authentication.
+    Two methods are supported: (1) bird CLI using browser cookies (AUTH_TOKEN/CT0 env vars
+    sourced from .env.bird), or (2) X API v2 with OAuth 2.0 tokens stored locally.
+    All credentials are stored locally on the user's machine and never transmitted
+    to third parties. The user must explicitly provide or authorize credentials.
+  permissions:
+    - read: "X/Twitter bookmarks (read-only access)"
+    - write: "Local files only (bookmark state, token storage)"
 ---
 
 # X Bookmarks v2
